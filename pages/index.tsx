@@ -9,7 +9,7 @@ import Router from '../Helper/Router';
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 
-function Cart() {
+export default function Cart() {
 
   const URL = 'https://fakestoreapi.com/products';
   const { data, error } = useSWR(URL, fetcher)
@@ -58,4 +58,3 @@ function Cart() {
   )
 }
 
-export default Cart

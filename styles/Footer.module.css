@@ -1,0 +1,12 @@
+.card {
+    font-size: 30px;
+    margin: 0 10px;
+}
+
+.link a {
+    padding-left: 5px;
+}
+
+.link:hover a{
+    color: red;
+}
