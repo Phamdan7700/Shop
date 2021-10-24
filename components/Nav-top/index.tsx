@@ -37,16 +37,13 @@ export default function NavTabs() {
 
   return (
 
-    <Container maxWidth='lg'>
-      <Box sx={{ width: "50%" }} >
-        <Tabs value={value} onChange={handleChange} aria-label="nav tabs example">
-          <LinkTab label="Trang chủ" path="/" />
-          <LinkTab label="Sản Phẩm" path="/product" />
-          <LinkTab label="Cart" path="/cart" />
-        </Tabs>
-      </Box>
-    </Container>
-
+    <Box sx={{ flex: 1 }} >
+      <Tabs value={value} onChange={handleChange} centered aria-label="nav tabs example">
+        <LinkTab label="Trang chủ" path="/" />
+        <LinkTab label="Sản Phẩm" path="/product" />
+        <LinkTab label="Cart" path="/cart" />
+      </Tabs>
+    </Box>
 
   );
 }

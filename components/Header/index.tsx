@@ -1,6 +1,6 @@
 
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import { Fab, Zoom } from "@mui/material";
+import { Container, Fab, Zoom } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -72,17 +72,19 @@ function Header() {
             <CssBaseline />
             <HideOnScroll >
                 <AppBar color="default">
-                    <Toolbar>
-                        <Typography variant="h6" component="div">
-                            <Link href="/"><a>Shoppi</a></Link>
-                        </Typography>
-                        <NavTabs />
-                        <div className='socials'>
-                            <FacebookIcon />
-                            <InstagramIcon />
-                            <LocalMallOutlinedIcon />
-                        </div>
-                    </Toolbar>
+                    <Container>
+                        <Toolbar>
+                            <Typography variant="h6" component="div">
+                                <Link href="/"><a>Shoppi</a></Link>
+                            </Typography>
+                            <NavTabs />
+                            <Box className='socials'>
+                                <FacebookIcon />
+                                <InstagramIcon />
+                                <LocalMallOutlinedIcon />
+                            </Box>
+                        </Toolbar>
+                    </Container>
                 </AppBar>
             </HideOnScroll>
             <Toolbar id="back-to-top-anchor" />
