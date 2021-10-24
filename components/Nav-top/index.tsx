@@ -42,7 +42,7 @@ export default function NavTabs() {
         <Tabs value={value} onChange={handleChange} aria-label="nav tabs example">
           <LinkTab label="Trang chủ" path="/" />
           <LinkTab label="Sản Phẩm" path="/product" />
-          <LinkTab label="Cart" href="/cart" path="/cart" />
+          <LinkTab label="Cart" path="/cart" />
         </Tabs>
       </Box>
     </Container>

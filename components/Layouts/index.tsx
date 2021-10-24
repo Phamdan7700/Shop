@@ -1,3 +1,4 @@
+import { Container } from "@mui/material";
 import * as React from "react";
 import Footer from "../Footer/Footer";
 import Header from "../Header";
@@ -11,7 +12,7 @@ export default function Layout(props: Props) {
     return (
         <>
             <Header />
-            <main style={{minHeight: '100vh'}}>{props.children}</main>
+            <Container style={{minHeight: '100vh'}}>{props.children}</Container>
             <Footer />
         </>
     );
