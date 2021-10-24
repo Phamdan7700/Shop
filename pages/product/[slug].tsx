@@ -16,14 +16,14 @@ interface DetailProps {
     error?: any
 }
 
-export default function ProductPage({ data }: DetailProps) {
+export default function ProductPage() {
     const router = useRouter()
     const { slug } = router.query
     const URL = `https://fakestoreapi.com/products/${slug}`;
     const { data, error }: SWRResponse<Product, Error> = useSWR(URL, fetcher)
 
 
-    // if (error) return <div>failed to load</div>
+    if (error) return <div>failed to load</div>
     if (!data) return <Container>
         <Skeleton height={300} />
     </Container>
