@@ -12,7 +12,7 @@ export default function Layout(props: Props) {
     return (
         <>
             <Header />
-            <Container style={{minHeight: '100vh'}}>{props.children}</Container>
+            <main style={{minHeight: '100vh', marginTop: '64px'}}>{props.children}</main>
             <Footer />
         </>
     );

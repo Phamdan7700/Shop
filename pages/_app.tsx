@@ -2,6 +2,9 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Layout from "../components/Layouts";
 import React, { useContext } from "react";
+import StoreProvider from "utils/Store";
+import { ThemeProvider } from "@mui/private-theming";
+import { theme } from "utils/CustomTheme";
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -19,9 +22,13 @@ function MyApp({ Component, pageProps }: AppProps) {
   const ThemeContext = React.createContext(themes.light);
 
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <StoreProvider>
+      <ThemeProvider theme={theme}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
+    </StoreProvider>
   );
 }
 export default MyApp;

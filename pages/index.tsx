@@ -1,60 +1,68 @@
-import { Container, Grid, Link, Skeleton, Stack } from '@mui/material';
-import NextLink from 'next/link';
-import React from 'react';
-import useSWR from 'swr';
-import CardProduct from '../components/CardProduct';
-import Product from '../Helper/PropTypes';
-import Router from '../Helper/Router';
+import { Backdrop, CircularProgress, Container, Grid, Link, Typography } from "@mui/material";
+import Slider from "components/Slider";
+import Subscriber from "components/Subscriber";
+import API from "Helper/api";
+import ROUTE from "Helper/Router";
+import NextLink from "next/link";
+import React, { useContext } from "react";
+import { RingLoader } from "react-spinners";
+import useSWR from "swr";
+import { Store } from "utils/Store";
+import CardProduct from "../components/CardProduct";
+import { AddToCart, CartItemType, Product } from "../Helper/Types";
 
-const fetcher = (url: string) => fetch(url).then(res => res.json())
-
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Cart() {
+    const URL = API.product;
+    const { data, error } = useSWR(URL, fetcher);
+    const { state, dispatch } = useContext(Store);
 
-  const URL = 'https://fakestoreapi.com/products';
-  const { data, error } = useSWR(URL, fetcher)
+    const addToCart: AddToCart = (item) => {
+        dispatch({ type: "ADD_TO_CART", payload: { ...item, amount: 1 } });
+    };
 
-  if (error) return <div>failed to load</div>
+    function removeFromCart(item: CartItemType) {}
 
-  return (
-    <Container>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} >
-        {data ?
-          data.map((item: Product) => (
-            <Grid key={item.id} item xs={2} sm={4} md={4} >
-              <NextLink href={{
-                pathname: Router.product,
-                query: { slug: item.id }
-              }}
-                passHref>
-                <a >
-                  <CardProduct
-                    key={item.id}
-                    title={item.title}
-                    description={item.description}
-                    category={item.category}
-                    image={item.image}
-                    price={item.price}
-                    rating={item.rating}
-                  />
-                </a>
-              </NextLink>
+    if (error) return <div>failed to load</div>;
+    if (!data)
+        return (
+            <Backdrop
+                sx={{
+                    color: "#fff",
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                }}
+                open={true}
+            >
+               <RingLoader color="rgba(63, 209, 255, 1)" size={100}/>
+            </Backdrop>
+        );
 
-            </Grid>
-          ))
-          :
-          Array.from(new Array(6)).map((item, index) => (
-            <Grid key={index} item xs={2} sm={4} md={4} >
-              <Stack spacing={1}>
-                <Skeleton variant="rectangular" height={118} />
-                <Skeleton variant="text" />
-                <Skeleton variant="text" />
-              </Stack>
-            </Grid>
-          ))
-        }
-      </Grid>
-    </Container>
-  )
+    return (
+        <>
+            <Slider />
+            <Container>
+                <Typography variant="h2" textAlign="center" marginTop="20px">
+                    Featured Products
+                </Typography>
+                <Grid container spacing={2}>
+                    {data.map((item: Product) => (
+                        <Grid key={item.id} item xs={3}>
+                            <NextLink href={ROUTE.product(item.id)} passHref>
+                                <Link underline="none">
+                                    <CardProduct
+                                        key={item.id}
+                                        product={item}
+                                        addToCart={addToCart}
+                                    />
+                                </Link>
+                            </NextLink>
+                        </Grid>
+                    ))}
+                </Grid>
+
+                <Subscriber />
+            </Container>
+        </>
+    );
 }
-

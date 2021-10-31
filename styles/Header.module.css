@@ -1,3 +1,20 @@
 .socials {
-    display: flex;
+  display: flex;
+  justify-content: space-between;
+}
+
+.headerIcon {
+  margin-right: 2px;
+}
+.headerIconLink {
+  color: #fff !important;
+  font-size: 0.8rem;
+}
+
+.headerIconLink:hover {
+  color: red;
+}
+
+.headerIconLink:not(:last-child) {
+  margin-right: 30px;
 }

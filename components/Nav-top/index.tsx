@@ -1,10 +1,9 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import NextLink from "next/link";
+import Tabs from "@mui/material/Tabs";
+import { border } from "@mui/system";
 import { useRouter } from "next/dist/client/router";
-import { Container } from "@mui/material";
+import React from "react";
 
 
 interface LinkTabProps {
@@ -17,7 +16,7 @@ function LinkTab(props: LinkTabProps) {
   const router = useRouter();
 
   return (
-    <Tab
+    <Tab sx={{fontWeight: 'bold'}}
       component={'a'}
       onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         event.preventDefault();
