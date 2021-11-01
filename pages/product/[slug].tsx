@@ -1,22 +1,22 @@
-// import { Breadcrumbs, Container, Link, Skeleton } from '@mui/material';
-// import Product from 'Helper/Types';
-// import { useRouter } from 'next/dist/client/router';
-// import React from 'react';
-// import useSWR, { SWRResponse } from 'swr';
-// import HomeIcon from '@mui/icons-material/Home';
-// import NextLink from 'next/link';
-// import Image from 'next/image';
-// import { Box } from '@mui/system';
-// import { GetStaticPaths, GetStaticProps } from 'next';
+import { Breadcrumbs, Container, Link, Skeleton } from '@mui/material';
+import {Product} from 'Helper/Types';
+import { useRouter } from 'next/dist/client/router';
+import React from 'react';
+import useSWR, { SWRResponse } from 'swr';
+import HomeIcon from '@mui/icons-material/Home';
+import NextLink from 'next/link';
+import Image from 'next/image';
+import { Box } from '@mui/system';
+import { GetStaticPaths, GetStaticProps } from 'next';
 
-// const fetcher = (url: string) => fetch(url).then(res => res.json())
+const fetcher = (url: string) => fetch(url).then(res => res.json())
 
-// interface DetailProps {
-//     data: Product,
-//     error?: any
-// }
+interface DetailProps {
+    data: Product,
+    error?: any
+}
 
-// export default function ProductPage({data} : DetailProps) {
+export default function ProductPage({data} : DetailProps) {
 //     const router = useRouter()
 //     const { slug } = router.query
 //     const URL = `https://fakestoreapi.com/products/${slug}`;
@@ -49,7 +49,7 @@
 //             </Box>
 //         </Container>
 //     )
-// }
+}
 
 
 // export const getStaticProps: GetStaticProps = async (context) => {
