@@ -47,7 +47,7 @@ export default function Cart() {
                 </Typography>
                 <Grid container spacing={2}>
                     {data.map((item: Product) => (
-                        <Grid key={item.id} item xs={3}>
+                        <Grid key={item.id} item xs={6} md={3}>
                             <NextLink href={ROUTE.product(item.id)} passHref>
                                 <Link underline="none">
                                     <CardProduct

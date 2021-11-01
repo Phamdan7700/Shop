@@ -12,6 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import CartIcon from "components/Cart";
+import ROUTE from "Helper/Router";
 import NextLink from 'next/link';
 import React from 'react';
 import { Store } from "utils/Store";
@@ -104,7 +105,7 @@ export default function Header() {
                                             <FontAwesomeIcon className={styles.headerIcon} icon={faDollarSign} />  USD
                                         </Link>
                                     </NextLink>
-                                    <NextLink href="#" passHref>
+                                    <NextLink href={ROUTE.signUp} passHref>
                                         <Link className={styles.headerIconLink} underline='none'>
                                             <FontAwesomeIcon className={styles.headerIcon} icon={faUser} />  My Account
                                         </Link>

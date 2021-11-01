@@ -19,3 +19,10 @@ export interface CartItemType  extends Product {
 export type AddToCart = (product: Product) => void
 export type RemoveFromCart = (product: CartItemType) => void
 
+export interface UserType {
+    name: string;
+    email: string;
+    password: string;
+    isAdmin: boolean;
+};
+

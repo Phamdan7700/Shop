@@ -5,38 +5,38 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ROUTE from 'Helper/Router';
+import NextLink from 'next/link'
+import useSWR, { useSWRConfig } from 'swr';
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
+const fetcher = (...args: string[]) => fetch(...args).then(res => res.json())
 
 const theme = createTheme();
 
 export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const form = new FormData(event.currentTarget);
+    // eslint-disable-next-line no-console    
+    const formData = {
+      email: form.get('email'),
+      password: form.get('password'),
+    };
+    console.log(formData);
+    
+    // const { data, error } = useSWR(`/api/login`, fetcher)
+    // if (data) console.log(data);
+    
+
+    
+
   };
 
   return (
@@ -108,17 +108,16 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+                  <NextLink href={ROUTE.signUp}>
+                    <a>Forgot password?</a>
+                  </NextLink>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                  <NextLink href={ROUTE.signUp}>
+                      <a>{"Don't have an account? Sign Up"}</a>
+                  </NextLink>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>

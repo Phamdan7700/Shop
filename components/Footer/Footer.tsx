@@ -116,7 +116,7 @@ const Footer: FC = () => {
   return (
 
     <Box component="footer">
-      <Box sx={{ bgcolor: '#15161d', color: 'warning.contrastText', p: 6, mt: 2, borderTop: '3px solid red' }}>
+      <Box sx={{ bgcolor: '#15161d', color: 'warning.contrastText', p: 6, borderTop: '3px solid red' }}>
         <Container>
           <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
             {FooterMenu.map((item, index) => (

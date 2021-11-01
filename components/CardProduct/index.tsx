@@ -8,8 +8,9 @@ import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
 import { AddToCart, Product } from "Helper/Types";
+import { useSnackbar } from "notistack";
 import React from "react";
-import styles from './index.module.css';
+import styles from "./index.module.css";
 
 interface CartProps {
     product: Product;
@@ -18,6 +19,13 @@ interface CartProps {
 
 export default function CardProduct({ product, addToCart }: CartProps) {
     const classes = useStyles();
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const handleClick = () => {
+        enqueueSnackbar("Đã thêm vào giỏ hàng!", {
+            variant: "success",
+            autoHideDuration: 3000,
+        });
+    };
 
     return (
         <Card className={styles.card}>
@@ -47,6 +55,7 @@ export default function CardProduct({ product, addToCart }: CartProps) {
                         onClick={(e) => {
                             e.preventDefault();
                             addToCart(product);
+                            handleClick();
                         }}
                     >
                         <FontAwesomeIcon
