@@ -16,7 +16,7 @@ import NextLink from 'next/link'
 import useSWR, { useSWRConfig } from 'swr';
 
 
-const fetcher = (...args: string[]) => fetch(...args).then(res => res.json())
+// const fetcher = (...args: string[]) => fetch(...args).then(res => res.json())
 
 const theme = createTheme();
 

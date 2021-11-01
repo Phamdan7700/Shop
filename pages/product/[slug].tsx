@@ -28,27 +28,27 @@ export default function ProductPage({data} : DetailProps) {
 //         <Skeleton height={300} />
 //     </Container>
 
-//     return (
-//         <Container>
-//             <Breadcrumbs>
-//                 <NextLink href="/" passHref>
-//                     <Link
-//                         underline="hover"
-//                         sx={{ display: 'flex', alignItems: 'center' }}
-//                         color="red"
-//                     >
-//                         <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />
-//                         MUI
-//                     </Link>
-//                 </NextLink>
-//             </Breadcrumbs>
-//             <Box>
-//                 <h1>{data.id}</h1>
-//                 <h1>{data.description}</h1>
-//                 <Image src={data.image} alt="img" width={200} height={200} layout="responsive" />
-//             </Box>
-//         </Container>
-//     )
+    return (
+        <Container>
+            <Breadcrumbs>
+                <NextLink href="/" passHref>
+                    <Link
+                        underline="hover"
+                        sx={{ display: 'flex', alignItems: 'center' }}
+                        color="red"
+                    >
+                        <HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />
+                        MUI
+                    </Link>
+                </NextLink>
+            </Breadcrumbs>
+            <Box>
+                {/* <h1>{data.id}</h1>
+                <h1>{data.description}</h1>
+                <Image src={data.image} alt="img" width={200} height={200} layout="responsive" /> */}
+            </Box>
+        </Container>
+    )
 }
 
 

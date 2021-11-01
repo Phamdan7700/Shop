@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     };
     const notistackRef = React.createRef<SnackbarProvider>();
     const onClickDismiss = (key: number | string) => () => {
-        notistackRef.current.closeSnackbar(key);
+        notistackRef?.current?.closeSnackbar(key);
     };
 
     const ThemeContext = React.createContext(themes.light);
