@@ -7,12 +7,7 @@ function Loading() {
         <LoadingOverlay
             active={true}
             spinner={<RingLoader color="rgba(63, 209, 255, 1)" size={100}/>}
-            styles={{
-                overlay: (base) => ({
-                    ...base,
-                    background: "#fff",
-                }),
-            }}
+            
         >
             <p style={{ height: "100vh" }}></p>
         </LoadingOverlay>
