@@ -1,6 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { IconButton } from "@mui/material";
-import { ThemeProvider } from "@mui/private-theming";
+import { IconButton, ThemeProvider } from "@mui/material";
 import type { AppProps } from "next/app";
 import { SnackbarProvider } from "notistack";
 import React from "react";
@@ -9,28 +8,17 @@ import StoreProvider from "utils/Store";
 import Layout from "../components/Layouts";
 import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
-    const themes = {
-        light: {
-            foreground: "#000000",
-            background: "#eeeeee",
-        },
-        dark: {
-            foreground: "#ffffff",
-            background: "#222222",
-        },
-    };
+function MyApp({ Component, pageProps, ...appProps }: AppProps) {
     const notistackRef = React.createRef<SnackbarProvider>();
     const onClickDismiss = (key: number | string) => () => {
         notistackRef?.current?.closeSnackbar(key);
     };
 
-    const ThemeContext = React.createContext(themes.light);
-
     return (
         <StoreProvider>
             <ThemeProvider theme={theme}>
                 <SnackbarProvider
+                    maxSnack={2}
                     anchorOrigin={{
                         vertical: "bottom",
                         horizontal: "right",
@@ -42,9 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                         </IconButton>
                     )}
                 >
-                    <Layout>
-                        <Component {...pageProps} />
-                    </Layout>
+                    <Component {...pageProps} />
                 </SnackbarProvider>
             </ThemeProvider>
         </StoreProvider>

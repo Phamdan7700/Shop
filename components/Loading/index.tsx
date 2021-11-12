@@ -1,16 +1,18 @@
+import { Backdrop } from "@mui/material";
 import React from "react";
-import LoadingOverlay from "react-loading-overlay-ts";
 import { RingLoader } from "react-spinners";
 
 function Loading() {
     return (
-        <LoadingOverlay
-            active={true}
-            spinner={<RingLoader color="rgba(63, 209, 255, 1)" size={100}/>}
-            
+        <Backdrop
+            sx={{
+                color: "#fff",
+                zIndex: (theme) => theme.zIndex.drawer + 1,
+            }}
+            open={true}
         >
-            <p style={{ height: "100vh" }}></p>
-        </LoadingOverlay>
+            <RingLoader color="rgba(63, 209, 255, 1)" size={100} />
+        </Backdrop>
     );
 }
 

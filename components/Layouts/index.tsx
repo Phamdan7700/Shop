@@ -1,18 +1,17 @@
-import { Container } from "@mui/material";
-import * as React from "react";
+import React from "react";
 import Footer from "../Footer/Footer";
 import Header from "../Header";
 
 interface Props {
     window?: () => Window;
-    children: React.ReactElement;
+    children: React.ReactNode;
 }
 
 export default function Layout(props: Props) {
     return (
         <>
             <Header />
-            <main style={{minHeight: '100vh', marginTop: '64px'}}>{props.children}</main>
+            <main style={{minHeight: '100vh', paddingTop: '140px'}}>{props.children}</main>
             <Footer />
         </>
     );

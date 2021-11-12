@@ -1,0 +1,30 @@
+.subscriber {
+    padding: 70px 20px;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        url("/photo-1483478550801-ceba5fe50e8e.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.content {
+    text-align: center;
+    color: #fff;
+}
+
+.input {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-right: 10px;
+    border-radius: 30px;
+    border: none;
+    padding: 5px 20px !important;
+    min-width: 300px;
+    max-width: 300px;
+}
+
+.button {
+    border-radius: 30px;
+    min-width: fit-content;
+}

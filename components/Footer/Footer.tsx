@@ -120,7 +120,7 @@ const Footer: FC = () => {
         <Container>
           <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
             {FooterMenu.map((item, index) => (
-              <Grid key={index} item xs={2} sm={3} md={3}>
+              <Grid key={index} item xs={2} sm={4} md={3}>
                 <Typography component="h3">{item.title}</Typography>
                 <List >
                   {item.sub.map((sub, index) => (

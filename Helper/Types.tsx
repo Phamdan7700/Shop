@@ -1,28 +1,34 @@
 export interface Product {
-    id: number,
-    title: string,
-    price: number,
-    description: string,
-    category: string,
-    image: string,
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    image: string;
     rating: {
-        rate: number,
-        count: number
-    },
-    countInStock: number
+        rate: number;
+        count: number;
+    };
+    countInStock: number;
 }
 
-export interface CartItemType  extends Product {
-    amount: number
+export interface shoppingCartType {
+    cart: CartItemType[];
+    countItem: number;
+    totalPrice: number;
+    shippingFee: number
 }
 
-export type AddToCart = (product: Product) => void
-export type RemoveFromCart = (product: CartItemType) => void
+export interface CartItemType extends Product {
+    amount: number;
+}
+
+export type AddToCart = (product: Product) => void;
+export type RemoveFromCart = (product: CartItemType) => void;
 
 export interface UserType {
     name: string;
     email: string;
     password: string;
     isAdmin: boolean;
-};
-
+}

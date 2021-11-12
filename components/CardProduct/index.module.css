@@ -3,13 +3,25 @@
     max-height: 345px;
     height: 345;
     margin-top: 5px;
+    position: relative;
 }
 
-.card:hover img{
+.card:hover img {
     transform: scale(1.1);
     transition: all 0.4s ease-out;
 }
 
 .card img {
     transition: all 0.5s;
+}
+
+.label {
+    display: inline-block;
+    background-color: red;
+    color: #fff;
+    padding: 1px 5px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 1;
 }

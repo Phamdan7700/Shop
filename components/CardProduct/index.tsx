@@ -1,6 +1,6 @@
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, CardActionArea } from "@mui/material";
+import { Button, CardActionArea, Grow, Rating, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -29,6 +29,7 @@ export default function CardProduct({ product, addToCart }: CartProps) {
 
     return (
         <Card className={styles.card}>
+            <span className={styles.label}>-5%</span>
             <CardActionArea>
                 <CardMedia
                     component="img"
@@ -38,36 +39,32 @@ export default function CardProduct({ product, addToCart }: CartProps) {
                     sx={{ objectFit: "contain" }}
                 />
                 <CardContent>
-                    <Typography
-                        className={classes.title}
-                        gutterBottom
-                        variant="h5"
-                        component="div"
-                    >
+                    <Typography className={classes.title} gutterBottom variant="h5" component="div">
                         {product.title}
                     </Typography>
                 </CardContent>
             </CardActionArea>
             <CardContent>
-                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Stack spacing={1}>
+                    <Stack direction="row" justifyContent="space-between">
+                        <Typography variant="h6" color="text.primary">
+                            ${product.price}
+                        </Typography>
+                        <Rating sx={{ color: "red" }} value={product.rating.rate} readOnly />
+                    </Stack>
                     <Button
-                        variant="outlined"
+                        variant="contained"
                         onClick={(e) => {
                             e.preventDefault();
                             addToCart(product);
                             handleClick();
                         }}
+                        sx={{ lineHeight: 1.5 }}
                     >
-                        <FontAwesomeIcon
-                            icon={faShoppingCart}
-                            style={{ marginRight: 5 }}
-                        />
-                        Add to Cart
+                        <FontAwesomeIcon icon={faShoppingCart} style={{ marginRight: 5 }} />
+                        <span className={styles.textBtn}>Thêm vào giỏ hàng</span>
                     </Button>
-                    <Typography variant="h6" color="text.primary">
-                        ${product.price}
-                    </Typography>
-                </Box>
+                </Stack>
             </CardContent>
         </Card>
     );

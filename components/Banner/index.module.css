@@ -1,0 +1,43 @@
+.overlay {
+    position: absolute;
+    bottom: -154px;
+    left: -45px;
+    height: 328px;
+    width: 100%;
+    background-color: rgba(209, 0, 35, 0.9);
+    -webkit-transform: skewY(50deg);
+    transform: skewY(50deg);
+}
+
+.card img {
+    padding: 10px;
+    transition: all 0.5s;
+}
+
+.card:hover img {
+    transform: scale(1.05);
+}
+
+.content {
+    position: absolute;
+    bottom: 10px;
+    z-index: 1;
+}
+
+.label {
+    color: #fff;
+    font-weight: bold;
+}
+
+.content button {
+    opacity: 0;
+    transition: all 0.8s;
+}
+
+.card:hover .content button {
+    opacity: 1;
+}
+
+.arrow {
+    margin-left: 20px;
+}

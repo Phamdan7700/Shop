@@ -1,20 +1,21 @@
 .socials {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .headerIcon {
-  margin-right: 2px;
+    margin-right: 5px;
 }
 .headerIconLink {
-  color: #fff !important;
-  font-size: 0.8rem;
+    color: #fff !important;
+    font-size: 0.8rem;
+    text-transform: capitalize;
 }
 
 .headerIconLink:hover {
-  color: red;
+    color: red;
 }
 
 .headerIconLink:not(:last-child) {
-  margin-right: 30px;
+    margin-right: 30px;
 }

@@ -1,0 +1,17 @@
+.banner {
+    height: 400px;
+    display: flex;
+    position: relative;
+}
+.bannerTextWrap {
+    margin: auto;
+    display: flex;
+    z-index: 1;
+}
+.bannerText {
+    width: 100px;
+    height: 100px;
+    margin: 0 10px;
+    background-color: #D10024e6;
+    clip-path: circle();
+}

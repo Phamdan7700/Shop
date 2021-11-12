@@ -1,29 +1,36 @@
 .item {
-  display: flex;
-  align-items: center;
-  height: 100px;
-  padding: 20px 10px;
-  border: 1px solid #aaa;
+    display: flex;
+    align-items: center;
+    height: 100px;
+    padding: 20px 10px;
+    border: 1px solid #aaa;
 }
 .item > * {
-  margin-right: 10px;
+    margin-right: 10px;
+}
+.amountWrap {
+  background-color: rgba(150, 150, 150, 0.30);
+  border-radius: 30px;
 }
 
 .amount {
-  margin: 0 5px;
-  display: inline-block;
-  max-width: 50px;
-  text-align: center;
+    margin: 0 5px;
+    border: none;
+    text-align: center;
+    border-radius: 30px;
+    padding: 5px 10px;
+    max-width: 70px;
 }
 
 .btnAmount {
-  width: 40px;
-  height: 40px;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: min-content;
 }
 
 .title {
-  width: 200px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+    width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

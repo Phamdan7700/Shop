@@ -1,0 +1,23 @@
+.banner {
+    height: 400px;
+    display: flex;
+    position: relative;
+}
+.textWrap {
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    z-index: 1;
+}
+.time {
+    width: 100px;
+    height: 100px;
+    margin: 0 10px;
+    line-height: 100px;
+    text-align: center;
+    font-weight: bold;
+    color: #FFF;
+    font-size: 1.2rem ;
+    background-color: #d10024e6;
+    clip-path: circle();
+}

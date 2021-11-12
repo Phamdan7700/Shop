@@ -1,0 +1,16 @@
+.payment {
+    padding: 20px 30px;
+    background: linear-gradient(45deg, #20293a, #3a567c);
+    min-height: 60vh;
+    max-height: 100vh;
+    border-radius: 10px;
+    color: #fff;
+
+}
+
+.payment h6 {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
