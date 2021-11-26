@@ -4,12 +4,9 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Slide from "@mui/material/Slide";
-import zIndex from "@mui/material/styles/zIndex";
-import Toolbar from "@mui/material/Toolbar";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import NavTop from "components/NavTop";
 import React from "react";
-import { Store } from "utils/Store";
 import NavBar from "../NavBar";
 interface Props {
     window?: () => Window;
@@ -60,13 +57,12 @@ function HideOnScroll(props: Props) {
 }
 
 export default function Header() {
-    const { state, dispatch } = React.useContext(Store);
 
     return (
         <>
             <CssBaseline />
             <HideOnScroll>
-                <AppBar color="default">
+                <AppBar color="secondary">
                     <NavTop />
                     <NavBar />
                 </AppBar>

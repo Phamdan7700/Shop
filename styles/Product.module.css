@@ -4,11 +4,15 @@
 }
 
 .price {
-    color: red;
+    color: #e20707;
     font-size: 2rem;
-    margin: 10px 0;
-    padding: 5px;
-    background-color: #eee;
+    margin: 5px 0;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.priceOld {
+    text-decoration: line-through;
 }
 
 .amount {
@@ -18,4 +22,45 @@
 .btnAmount {
     width: 40px;
     height: 40px;
+}
+
+.service {
+    padding: 10px 0;
+}
+
+.serviceItem {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+.serviceItem :first-child {
+    color: rgb(1, 1, 212);
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.icon {
+    margin-right: 5px;
+}
+
+.contentTitle {
+    font-weight: bold;
+    border-left: 3px solid;
+    padding: 0 5px;
+    margin-bottom: 10px;
+}
+
+.content {
+    padding: 10px 20px 50px 30px;
+}
+
+.content img {
+    max-width: 100%;
+}
+
+.contentInfo {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 20px;
 }

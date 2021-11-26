@@ -1,22 +1,32 @@
 export interface Product {
     id: number;
-    title: string;
+    name: string;
+    manufacturer: string;
     price: number;
-    description: string;
+    price_sale: number;
+    content: string;
+    detail: string;
     category: string;
-    image: string;
+    thumbnail: string;
+    img_list: Array<string>;
+    count_in_sock: number;
     rating: {
         rate: number;
         count: number;
     };
-    countInStock: number;
+}
+
+export interface Category {
+    id: number;
+    title: string;
+    products: Array<Product>;
 }
 
 export interface shoppingCartType {
     cart: CartItemType[];
     countItem: number;
     totalPrice: number;
-    shippingFee: number
+    shippingFee: number;
 }
 
 export interface CartItemType extends Product {
@@ -29,6 +39,4 @@ export type RemoveFromCart = (product: CartItemType) => void;
 export interface UserType {
     name: string;
     email: string;
-    password: string;
-    isAdmin: boolean;
 }

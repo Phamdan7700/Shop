@@ -1,4 +1,6 @@
+import { Storefront } from "@mui/icons-material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import HomeIcon from "@mui/icons-material/Home";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { Breadcrumbs, Button, Container, Grid, Stack, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
@@ -9,25 +11,29 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import CartItem from "components/CartItem";
+import Layout from "components/Layouts";
 import NextLink from "components/Link";
 import ROUTE from "Helper/Router";
 import { CartItemType } from "Helper/Types";
 import { useRouter } from "next/dist/client/router";
-import React, { useContext } from "react";
+import Head from "next/head";
+import React, { useContext, useEffect } from "react";
 import { Store } from "utils/Store";
 import styles from "../../styles/Cart.module.css";
-import HomeIcon from "@mui/icons-material/Home";
-import { Storefront } from "@mui/icons-material";
-import { Box } from "@mui/system";
-import Layout from "components/Layouts";
 
 function Cart() {
     const router = useRouter();
     const { state, dispatch } = useContext(Store);
     const {
         shoppingCart: { cart, countItem, totalPrice, shippingFee },
+        userInfo,
     } = state;
 
+    useEffect(() => {
+        if (!userInfo) {
+            router.push(ROUTE.signIn + "?redirect=/cart");
+        }
+    }, []);
     function handleAddToCart(item: CartItemType) {
         dispatch({
             type: "ADD_TO_CART",
@@ -43,6 +49,9 @@ function Cart() {
 
     return (
         <Layout>
+            <Head>
+                <title>Giỏ hàng</title>
+            </Head>
             <Container sx={{ mt: 2 }}>
                 <Breadcrumbs sx={{ pl: 2 }}>
                     <NextLink href={ROUTE.home} passHref>

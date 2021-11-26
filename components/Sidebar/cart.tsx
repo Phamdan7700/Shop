@@ -3,6 +3,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { Avatar, Button, IconButton, ListItem, ListItemAvatar, ListItemText, Stack, TextField } from "@mui/material";
 import AlertDialogRemoveCart from "components/Alert/RemoveCart";
+import { formatNumber } from "Helper/function";
 import ROUTE from "Helper/Router";
 import { CartItemType } from "Helper/Types";
 import { useRouter } from "next/router";
@@ -37,14 +38,12 @@ function CartItemSidebar({ item, onClose }: PropType) {
             type: "REMOVE_TO_CART",
             payload: { ...item, amount: item.amount },
         });
-        console.log('handleCloseOK');
-        
+        console.log("handleCloseOK");
     };
 
     const handleCloseCancel = () => {
         setOpen(false);
-        console.log('handleCloseCancel');
-
+        console.log("handleCloseCancel");
     };
 
     return (
@@ -52,7 +51,13 @@ function CartItemSidebar({ item, onClose }: PropType) {
             <ListItem
                 button={true}
                 secondaryAction={
-                    <IconButton edge="end" aria-label="delete" onClick={handleClickOpen}>
+                    <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={() => {
+                            setOpen(true);
+                        }}
+                    >
                         <DeleteForeverIcon />
                     </IconButton>
                 }
@@ -63,11 +68,11 @@ function CartItemSidebar({ item, onClose }: PropType) {
                         onClose(event);
                     }}
                 >
-                    <Avatar src={item.image} sx={{ width: 50, height: 50 }} variant="square" />
+                    <Avatar src={item.thumbnail} sx={{ width: 50, height: 50 }} variant="square" />
                 </ListItemAvatar>
                 <ListItemText
-                    primary={item.title}
-                    secondary={item.amount + " X " + item.price}
+                    primary={item.name}
+                    secondary={item.amount + " X " + formatNumber(item.price)}
                     onClick={(event) => {
                         router.push(ROUTE.getProduct(item.id));
                         onClose(event);
@@ -99,7 +104,7 @@ function CartItemSidebar({ item, onClose }: PropType) {
                         size="small"
                         onClick={() => dispatch({ type: "ADD_TO_CART", payload: { ...item, amount: 1 } })}
                         color="primary"
-                        disabled={item.amount === item.countInStock}
+                        disabled={item.amount === item.count_in_sock}
                     >
                         <AddIcon />
                     </Button>

@@ -1,10 +1,9 @@
-import { Button, Typography } from "@mui/material";
+import "animate.css";
 import Image from "next/image";
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import styles from "./index.module.css";
-import "animate.css";
 const responsive = {
     superLargeDesktop: {
         // the naming can be any, depends on you.
@@ -25,7 +24,12 @@ const responsive = {
     },
 };
 
-function Slider() {
+interface slider {
+    id: number;
+    img: string;
+    position: number;
+}
+function Slider({ sliders }: { sliders: slider[] }) {
     return (
         <Carousel
             responsive={responsive}
@@ -34,21 +38,14 @@ function Slider() {
             showDots={true}
             swipeable={true}
             draggable={true}
-            ssr={true}
+            // ssr={true}
             autoPlaySpeed={3500}
         >
-            <div className={styles.slider}>
-                <Image draggable={false} src="/banner1.webp" layout="fill" objectFit="cover" alt="" />
-            </div>
-            <div className={styles.slider}>
-                <Image draggable={false} src="/banner2.webp" layout="fill" objectFit="cover" alt="" />
-            </div>
-            <div className={styles.slider}>
-                <Image draggable={false} src="/banner3.webp" layout="fill" objectFit="cover" alt="" />
-            </div>
-            <div className={styles.slider}>
-                <Image draggable={false} src="/banner4.webp" layout="fill" objectFit="cover" alt="" />
-            </div>
+            {sliders.map((slider, index) => (
+                <div key={index} className={styles.slider}>
+                    <Image draggable={false} src={slider.img} layout="fill" objectFit="cover" alt="" />
+                </div>
+            ))}
         </Carousel>
     );
 }

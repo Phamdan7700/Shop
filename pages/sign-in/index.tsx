@@ -1,36 +1,85 @@
+import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import { createTheme } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
 import Link from "components/Link";
 import ROUTE from "Helper/Router";
+import Cookies from "js-cookie";
 import Image from "next//image";
-import * as React from "react";
+import { useRouter } from "next/router";
+import React, { useContext, useEffect } from "react";
+import { Store } from "utils/Store";
+import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import { useSnackbar } from "notistack";
 
-// const fetcher = (...args: string[]) => fetch(...args).then(res => res.json())
-
-const theme = createTheme();
-
+interface IFormInputs {
+    email: string;
+    password: string;
+    remember: boolean;
+}
 export default function SignInSide() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        // event.preventDefault();
-        const form = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        const formData = {
-            email: form.get("email"),
-            password: form.get("password"),
-        };
-        console.log(formData);
+    const router = useRouter();
+    const { redirect } = router.query;
+    const { state, dispatch } = useContext(Store);
+    const { userInfo } = state;
 
-        // const { data, error } = useSWR(`/api/login`, fetcher)
-        // if (data) console.log(data);
+    const [loading, setLoading] = React.useState(false);
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+    const handleLogin = (data: any) => {
+        dispatch({ type: "LOGIN_USER", userInfo: data.user });
+        Cookies.set("userInfo", JSON.stringify(data.user));
+        enqueueSnackbar(data.message, {
+            variant: "success",
+            autoHideDuration: 2000,
+            anchorOrigin: { vertical: "top", horizontal: "center" },
+            onClose: () => {
+                router.push("/");
+            },
+        });
+        setLoading(false);
     };
+    // Form
+    const {
+        handleSubmit,
+        control,
+        reset,
+        formState: { errors },
+    } = useForm<IFormInputs>();
+
+    const onSubmit: SubmitHandler<IFormInputs> = (data) => {
+        setLoading(true);
+        axios
+            .post("http://127.0.0.1:8000/api/login", data)
+            .then(function (response) {
+                console.log(response);
+
+                if (response.data.success) {
+                    handleLogin(response.data);
+                } else {
+                    enqueueSnackbar(response.data.message, {
+                        variant: "error",
+                        autoHideDuration: 3000,
+                        anchorOrigin: { vertical: "top", horizontal: "center" },
+                    });
+                    setLoading(false);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        if (userInfo) {
+            router.push(ROUTE.home);
+        }
+    }, []);
 
     return (
         <Grid container component="main" sx={{ height: "100vh" }}>
@@ -64,42 +113,79 @@ export default function SignInSide() {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" method='post' onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
+
+                    <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
+                        <Controller
                             name="email"
-                            autoComplete="email"
-                            autoFocus
-                            inputProps={{ type: 'email' }}
+                            control={control}
+                            rules={{
+                                required: { value: true, message: "Vui lòng nhập địa chỉ email" },
+                                pattern: {
+                                    value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                                    message: "Vui lòng kiếm tra lại định dạng email",
+                                },
+                            }}
+                            render={({ field }) => (
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    autoFocus
+                                    helperText={errors.email?.message}
+                                    error={Boolean(errors.email)}
+                                    {...field}
+                                />
+                            )}
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
+                        <Controller
                             name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            inputProps={{ type: 'password' }}
+                            control={control}
+                            rules={{
+                                required: { value: true, message: "Vui lòng nhập mật khẩu" },
+                                minLength: { value: 8, message: "Vui lòng nhập tối thiểu 8 ký tự" },
+                                maxLength: { value: 255, message: "Mật khẩu quá dài" },
+                            }}
+                            render={({ field }) => (
+                                <TextField
+                                    margin="normal"
+                                    fullWidth
+                                    label="Password"
+                                    type="password"
+                                    id="password"
+                                    inputProps={{ type: "password" }}
+                                    helperText={errors.password?.message}
+                                    error={Boolean(errors.password)}
+                                    {...field}
+                                />
+                            )}
                         />
-                        <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-                        <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                        <Controller
+                            name="remember"
+                            control={control}
+                            defaultValue={false}
+                            render={({ field }) => <Checkbox color="primary" id="remember" {...field} />}
+                        />
+                        <label htmlFor="remember">Remember me</label>
+
+                        <LoadingButton
+                            type="submit"
+                            loading={loading}
+                            loadingPosition="end"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
                             Sign In
-                        </Button>
+                        </LoadingButton>
                         <Grid container>
                             <Grid item xs>
-                                <Link href={ROUTE.signUp}>
-                                    Forgot password?
-                                </Link>
+                                <Link href={ROUTE.signUp}>Forgot password?</Link>
                             </Grid>
                             <Grid item>
-                                <Link href={ROUTE.signUp}>
-                                    {"Don't have an account? Sign Up"}
+                                Chưa có tài khoản?{" "}
+                                <Link href={ROUTE.signUp} color="red">
+                                    {"Đăng ký"}
                                 </Link>
                             </Grid>
                         </Grid>

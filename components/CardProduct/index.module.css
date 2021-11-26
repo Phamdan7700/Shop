@@ -1,27 +1,75 @@
 .card {
-    max-width: 345px;
-    max-height: 345px;
-    height: 345;
-    margin-top: 5px;
+    max-width: 300px;
+    height: 100%;
     position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
 }
 
-.card:hover img {
+.cardContent {
+    flex: 1;
+}
+
+.borderLogo::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("/img/border.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: 2;
+}
+
+.card:hover {
+    border: 1px solid #555;
+}
+.card:hover .cardMedia {
     transform: scale(1.1);
     transition: all 0.4s ease-out;
 }
 
-.card img {
+.card .cardMedia {
     transition: all 0.5s;
+    object-fit: contain;
+    padding: 30px;
 }
 
 .label {
     display: inline-block;
-    background-color: red;
-    color: #fff;
-    padding: 1px 5px;
     position: absolute;
     right: 5px;
-    top: 5px;
+    top: 2px;
     z-index: 1;
+    width: 50px;
+    height: 100px;
+    z-index: 3;
+}
+
+.title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    line-height: 1.5;
+}
+
+.addtocart {
+    margin-top: 10px;
+}
+
+.priceOld {
+    text-decoration: line-through;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+}
+
+.ratingCount {
+    margin-left: 10px;
 }

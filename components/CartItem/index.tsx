@@ -41,13 +41,13 @@ function CartItem({ item, addToCart, removeFromCart }: PropType) {
                 <TableCell component="th" scope="row">
                     <NextLink href={ROUTE.getProduct(item.id)} passHref>
                         <Link>
-                            <Image src={item.image} width="100" height="100" alt="" objectFit="contain" />
+                            <Image src={item.thumbnail} width="100" height="100" alt="" objectFit="contain" />
                         </Link>
                     </NextLink>
                 </TableCell>
                 <TableCell>
                     <NextLink href={ROUTE.getProduct(item.id)} passHref>
-                        <Link>{item.title}</Link>
+                        <Link>{item.name}</Link>
                     </NextLink>
                 </TableCell>
                 <TableCell>${item.price}</TableCell>
@@ -74,7 +74,7 @@ function CartItem({ item, addToCart, removeFromCart }: PropType) {
                             className={styles.btnAmount}
                             size="small"
                             onClick={() => addToCart(item)}
-                            disabled={item.amount === item.countInStock}
+                            disabled={item.amount === item.count_in_sock}
                         >
                             <AddIcon />
                         </IconButton>

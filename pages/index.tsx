@@ -1,10 +1,11 @@
-import { Button, Container, Divider, Grid, Link, Paper, Tab, Tabs, Typography } from "@mui/material";
-import { Box, height } from "@mui/system";
+import { Container, Divider } from "@mui/material";
+import { Box } from "@mui/system";
 import Banner from "components/Banner";
-import BannerSale from "components/BannerSale";
+import BannerSale from "components/CustomSlider";
 import Layout from "components/Layouts";
 import NextLink from "components/Link";
 import Loading from "components/Loading";
+import ProductList from "components/ProductList";
 import Slider from "components/Slider";
 import SliderProduct from "components/SliderProduct";
 import Subscriber from "components/Subscriber";
@@ -14,47 +15,16 @@ import React, { useContext } from "react";
 import useSWR from "swr";
 import { Store } from "utils/Store";
 import CardProduct from "../components/CardProduct";
-import { AddToCart, Product } from "../Helper/Types";
-
+import { AddToCart, Category, Product } from "../Helper/Types";
+import Head from 'next/head'
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const slider = [{ src: "banner1.jpg" }, { src: "banner2.jpg" }, { src: "banner3.jpg" }];
 
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-function a11yProps(index: number) {
-    return {
-        id: `simple-tab-${index}`,
-        "aria-controls": `simple-tabpanel-${index}`,
-    };
-}
-
-export default function Cart() {
-    const URL = API.product;
+export default function Home() {
+    const URL = API.homepage;
     const { data, error } = useSWR(URL, fetcher);
     const { state, dispatch } = useContext(Store);
+    const { userInfo } = state;
 
     const [value, setValue] = React.useState(0);
 
@@ -62,74 +32,67 @@ export default function Cart() {
         setValue(newValue);
     };
 
+    const handleChangeIndex = (index: number) => {
+        setValue(index);
+    };
+
     const addToCart: AddToCart = (item) => {
         dispatch({ type: "ADD_TO_CART", payload: { ...item, amount: 1 } });
     };
 
     if (error) return <div>failed to load</div>;
-    if (!data) return <Loading />;
-
+    if (!data)
+        return (
+            <Layout>
+                <Loading />
+            </Layout>
+        );
+    const { sliderList, categoryList, productList } = data;
+    console.log(data);
     return (
         <Layout>
-            <Slider />
-            <Container sx={{ pb: 5 }}>
+            <Head>
+                <title>Trang chủ</title>
+            </Head>
+            {/* Slider */}
+            <Slider sliders={sliderList} />
+            {/* Banner */}
+            <Divider sx={{ mt: 2, mb: 2, visibility: "hidden" }} />
+            <Container>
                 <Banner />
-                <div>
-                    <Typography variant="h2" textAlign="center" margin="20px 0">
-                        Featured Products
-                    </Typography>
+            </Container>
+            <Divider sx={{ mt: 3, mb: 3, visibility: "hidden" }} />
+            {/* Laptop */}
+            {categoryList.map((category:Category, index:number) => {
+                return (
+                    <div key={index} className={`wrapper-banner-${index}`}>
+                        <Container sx={{ pt: 5, pb: 5 }}>
+                            <SliderProduct title={`${category.title} nổi bật`}>
+                                {category.products.map((item: Product) => (
+                                    <Box key={item.id} sx={{ p: "0 10px", height: "100%" }}>
+                                        <NextLink href={ROUTE.getProduct(item.id)}>
+                                            <CardProduct key={item.id} product={item} />
+                                        </NextLink>
+                                    </Box>
+                                ))}
+                            </SliderProduct>
+                        </Container>
+                    </div>
+                );
+            })}
 
-                    <Box sx={{ width: "100%" }}>
-                        <Box >
-                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                <Tab label="Item One" {...a11yProps(0)} />
-                                <Tab label="Item Two" {...a11yProps(1)} />
-                                <Tab label="Item Three" {...a11yProps(2)} />
-                            </Tabs>
-                        </Box>
-                        <TabPanel value={value} index={0}>
-                            <Grid container spacing={2} pb={5}>
-                                {data.map((item: Product) => (
-                                    <Grid key={item.id} item xs={6} md={3}>
-                                        <NextLink href={ROUTE.getProduct(item.id)}>
-                                            <CardProduct key={item.id} product={item} addToCart={addToCart} />
-                                        </NextLink>
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
-                            <Grid container spacing={2} pb={5}>
-                                {data.map((item: Product) => (
-                                    <Grid key={item.id} item xs={6} md={3}>
-                                        <NextLink href={ROUTE.getProduct(item.id)}>
-                                            <CardProduct key={item.id} product={item} addToCart={addToCart} />
-                                        </NextLink>
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </TabPanel>
-                        <TabPanel value={value} index={2}>
-                            1231321313
-                        </TabPanel>
-                    </Box>
-                </div>
-                <Divider />
+            <Divider sx={{ mt: 2, mb: 2, visibility: "hidden" }} />
+            {/* Sale */}
+            <Container>
+                <BannerSale slider={slider} />
             </Container>
-            <BannerSale />
-            <Container sx={{ pt: 5, pb: 5 }}>
-                <Divider />
-                <SliderProduct>
-                    {data.map((item: Product) => (
-                        <Box key={item.id} sx={{ p: "0 10px" }}>
-                            <NextLink href={ROUTE.getProduct(item.id)}>
-                                <CardProduct key={item.id} product={item} addToCart={addToCart} />
-                            </NextLink>
-                        </Box>
-                    ))}
-                </SliderProduct>
+            <Divider sx={{ mt: 2, mb: 2, visibility: "hidden" }} />
+            {/* Product list */}
+            <Container sx={{ pt: 2, pb: 2 }}>
+                <ProductList/>
             </Container>
-            <Subscriber />
+            <Divider sx={{ mt: 2, mb: 2, visibility: "hidden" }} />
+           
         </Layout>
     );
 }

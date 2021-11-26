@@ -15,5 +15,13 @@ export const theme = createTheme({
                 underline: "none",
             },
         },
+        MuiButton: {
+            variants: [
+                {
+                    props: { variant: "outlined" },
+                    style: { ":hover": { backgroundColor: "#15161d", color: "#fff" } },
+                },
+            ],
+        },
     },
 });

@@ -1,16 +1,36 @@
+:root {
+    --navtop-height: 40px;
+    --navbar-height: 80px;
+}
 html,
 body {
     padding: 0;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-        Helvetica Neue, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f3f3f3;
 }
 
 @media (max-width: 768px) {
-    html,body {
-        font-size: 12px ;
+    html,
+    body {
+        font-size: 12px;
     }
 }
+#nav-top {
+    height: var(--navtop-height);
+}
+#navbar {
+    height: var(--navbar-height);
+}
+
+#main {
+    padding-top: calc(var(--navtop-height) + var(--navbar-height));
+    min-height: 100vh;
+}
+
+/* #logo {
+    height: var(--navbar-height) !important;
+} */
 
 a:hover {
     color: orangered;
@@ -26,4 +46,25 @@ th {
 
 .css-mgur8 {
     z-index: 10000;
+}
+
+.title {
+    text-transform: uppercase;
+    padding: 0 10px;
+    margin: 10px 0;
+    font-size: 1.5rem;
+}
+
+.wrapper-banner-0 {
+    background: url("/img/banner-3.png");
+}
+.wrapper-banner-1 {
+}
+.wrapper-banner-2 {
+    background: linear-gradient(25deg, #1d4358, #356580, #307194, #235975, #224050);
+    position: relative;
+}
+
+.wrapper-banner-img {
+    position: absolute;
 }

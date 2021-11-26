@@ -1,12 +1,12 @@
 .overlay {
     position: absolute;
-    bottom: -154px;
-    left: -45px;
-    height: 328px;
-    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-color: rgba(209, 0, 35, 0.9);
-    -webkit-transform: skewY(50deg);
-    transform: skewY(50deg);
+    clip-path: polygon(0 0, 23% 0, 74% 100%, 0% 100%);
+
 }
 
 .card img {
@@ -30,7 +30,7 @@
 }
 
 .content button {
-    opacity: 0;
+    opacity: 1;
     transition: all 0.8s;
 }
 

@@ -1,3 +1,4 @@
+import Subscriber from "components/Subscriber";
 import React from "react";
 import Footer from "../Footer/Footer";
 import Header from "../Header";
@@ -11,7 +12,9 @@ export default function Layout(props: Props) {
     return (
         <>
             <Header />
-            <main style={{minHeight: '100vh', paddingTop: '140px'}}>{props.children}</main>
+            <main id='main'>{props.children}</main>
+             {/* Subscriber */}
+             <Subscriber />
             <Footer />
         </>
     );

@@ -15,7 +15,7 @@ import styles from "../../styles/Header.module.css";
 
 export default function NavTop() {
     const { state, dispatch } = React.useContext(Store);
-
+    const { userInfo } = state;
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,10 +37,10 @@ export default function NavTop() {
                 <Container>
                     <Box
                         sx={{
-                            height: "40px",
                             display: "flex",
                             justifyContent: "space-between",
                         }}
+                        id="nav-top"
                     >
                         <Stack
                             direction="row"
@@ -68,32 +68,38 @@ export default function NavTop() {
                                 {state.shoppingCart.totalPrice}
                             </Link>
 
-                            <Button
-                                id="basic-button"
-                                aria-controls="basic-menu"
-                                aria-haspopup="true"
-                                aria-expanded={open ? "true" : undefined}
-                                onClick={handleClick}
-                                className={styles.headerIconLink}
-                            >
-                                <FontAwesomeIcon icon={faUser} className={styles.headerIcon} /> Xin chào, Bi
-                            </Button>
-                            <Menu
-                                id="basic-menu"
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}
-                                MenuListProps={{
-                                    "aria-labelledby": "basic-button",
-                                }}
-                            >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
-                                <MenuItem onClick={handleClose}>Logout</MenuItem>
-                            </Menu>
-                            <Link href={ROUTE.signUp} className={styles.headerIconLink}>
-                                <FontAwesomeIcon className={styles.headerIcon} icon={faUser} /> My Account
-                            </Link>
+                            {userInfo ? (
+                                <>
+                                    <Button
+                                        id="basic-button"
+                                        aria-controls="basic-menu"
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? "true" : undefined}
+                                        onClick={handleClick}
+                                        className={styles.headerIconLink}
+                                    >
+                                        <FontAwesomeIcon icon={faUser} className={styles.headerIcon} /> Xin chào,{" "}
+                                        {userInfo.name}
+                                    </Button>
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorEl}
+                                        open={open}
+                                        onClose={handleClose}
+                                        MenuListProps={{
+                                            "aria-labelledby": "basic-button",
+                                        }}
+                                    >
+                                        <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                                        <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                    </Menu>
+                                </>
+                            ) : (
+                                <Link href={ROUTE.signUp} className={styles.headerIconLink}>
+                                    <FontAwesomeIcon className={styles.headerIcon} icon={faUser} /> My Account
+                                </Link>
+                            )}
                         </Stack>
                     </Box>
                 </Container>

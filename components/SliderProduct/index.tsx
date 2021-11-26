@@ -1,8 +1,8 @@
-import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { ReactElement } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import styles from "./index.module.css";
 
 const responsive = {
     superLargeDesktop: {
@@ -24,12 +24,12 @@ const responsive = {
     },
 };
 
-function SliderProduct({ children }: { children: ReactElement }) {
+function SliderProduct({ title, children }: { title?: string; children: ReactNode }) {
     return (
-        <Box sx={{ background: "url(/unnamed.png) no-repeat 100% 100% /cover", mt: 5, pb: 5 }}>
-            <Typography variant="h3" textAlign="center" pt={5} pb={5}>
-                Sản Phẩm Bán Chạy
-            </Typography>
+        <Box className={styles.wrapper}>
+            {title && (
+               <h3 className='title'> {title}</h3>
+            )}
             <Carousel
                 responsive={responsive}
                 infinite={true}
@@ -37,7 +37,8 @@ function SliderProduct({ children }: { children: ReactElement }) {
                 swipeable={true}
                 draggable={true}
                 ssr={true}
-                autoPlaySpeed={2000}
+                autoPlaySpeed={4000}
+                pauseOnHover
             >
                 {children}
             </Carousel>

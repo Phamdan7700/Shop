@@ -1,0 +1,8 @@
+.wrapper {
+    background-image: url(/img/abstract-1780164.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 10px;
+    min-height: 100vh;
+}

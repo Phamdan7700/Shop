@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { Box } from "@mui/system";
+import { formatNumber } from "Helper/function";
 import ROUTE from "Helper/Router";
 import { shoppingCartType } from "Helper/Types";
 import { useRouter } from "next/dist/client/router";
@@ -54,8 +55,8 @@ function SideBar({ shoppingCart, onClose }: SidebarType) {
                 ))}
                 <ListItem>
                     <Chip
-                        sx={{ width: "100%", fontWeight: "bold" }}
-                        label={"Tổng Tiền: " + totalPrice}
+                        sx={{ width: "100%", fontWeight: "bold", fontSize:'1rem' }}
+                        label={"Tổng Tiền: " + formatNumber(totalPrice)+ 'đ'}
                         variant="outlined"
                     ></Chip>
                 </ListItem>
