@@ -4,6 +4,7 @@ import CardProduct from "components/CardProduct";
 import Link from "components/Link";
 import Loading from "components/Loading";
 import API from "Helper/api";
+import axiosClient from "Helper/API/AxiosClient";
 import ROUTE from "Helper/Router";
 import { Product } from "Helper/Types";
 import React, { useEffect, useRef, useState } from "react";
@@ -19,16 +20,16 @@ function ProductList() {
     const [dataResponse, setDataResponse] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const elm = useRef();
+    const elm = useRef<HTMLHeadingElement>(null);
 
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
-        elm.current.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+        elm?.current?.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
     };
 
     useEffect(() => {
         const URL = API.product;
-        axios
+        axiosClient
             .get(URL, { params: { page } })
             .then((res) => {
                 setDataResponse(res.data);

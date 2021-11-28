@@ -11,12 +11,16 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import Link from "components/Link";
+import API from "Helper/api";
+import axiosClient from "Helper/API/AxiosClient";
+import getCsrfCookies from "Helper/API/getCsrfCookies";
 import ROUTE from "Helper/Router";
+import { UserType } from "Helper/Types";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Store } from "utils/Store";
 import styles from "./index.module.css";
@@ -27,18 +31,29 @@ interface IFormInputs {
     password_confirmation: string;
     privacy: boolean;
 }
+
+interface ResponseData {
+    data: UserType;
+    token: string;
+    message: string;
+    success: boolean;
+}
+
 export default function SignUp() {
     const router = useRouter();
     const { redirect } = router.query;
     const { state, dispatch } = useContext(Store);
     const { userInfo } = state;
 
+    const [errorResponse, setErrorResponse] = useState<any>({});
+
     const [loading, setLoading] = React.useState(false);
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    const handleLogin = (user: any) => {
-        dispatch({ type: "LOGIN_USER", userInfo: user });
-        Cookies.set("userInfo", JSON.stringify(user));
-        enqueueSnackbar("Đăng ký thành công", {
+
+    const handleLogin = (response: ResponseData) => {
+        Cookies.set("userInfo", JSON.stringify(response.data));
+        Cookies.set("auth_token", JSON.stringify(response.token));
+        enqueueSnackbar(response.message, {
             variant: "success",
             autoHideDuration: 2000,
             anchorOrigin: { vertical: "top", horizontal: "center" },
@@ -59,23 +74,26 @@ export default function SignUp() {
     // Handle Sign-up
     const onSubmit: SubmitHandler<IFormInputs> = (formData) => {
         setLoading(true);
-
-        axios
-            .post("http://127.0.0.1:8000/api/register", formData)
-            .then(function (response) {
-                if (response.status == 200) {
-                    handleLogin(response.data);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-                enqueueSnackbar(error.message, {
-                    variant: "error",
-                    autoHideDuration: 3000,
-                    anchorOrigin: { vertical: "top", horizontal: "center" },
+        getCsrfCookies().then(() => {
+            axiosClient
+                .post(API.register, formData)
+                .then(function (response) {
+                    if (response.data.success) {
+                        handleLogin(response.data);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error.response);
+                    const { data } = error.response;
+                    setErrorResponse(data.errors);
+                    enqueueSnackbar(data.message, {
+                        variant: "error",
+                        autoHideDuration: 3000,
+                        anchorOrigin: { vertical: "top", horizontal: "center" },
+                    });
+                    setLoading(false);
                 });
-                setLoading(false);
-            });
+        });
     };
 
     return (
@@ -112,8 +130,8 @@ export default function SignUp() {
                                     id="name"
                                     label="Tên của bạn"
                                     autoFocus
-                                    helperText={errors.name?.message}
-                                    error={Boolean(errors.name)}
+                                    helperText={errors.name?.message || errorResponse?.name}
+                                    error={Boolean(errors.name) || Boolean(errorResponse?.name)}
                                     {...field}
                                 />
                             )}
@@ -135,8 +153,8 @@ export default function SignUp() {
                                     id="email"
                                     label="Địa chỉ Email"
                                     inputProps={{ type: "email" }}
-                                    helperText={errors.email?.message}
-                                    error={Boolean(errors.email)}
+                                    helperText={errors.email?.message || errorResponse?.email}
+                                    error={Boolean(errors.email) || Boolean(errorResponse?.email)}
                                     {...field}
                                 />
                             )}
@@ -157,8 +175,8 @@ export default function SignUp() {
                                     label="Mật khẩu"
                                     type="password"
                                     id="password"
-                                    helperText={errors.password?.message}
-                                    error={Boolean(errors.password)}
+                                    helperText={errors.password?.message || errorResponse?.password}
+                                    error={Boolean(errors.password) || Boolean(errorResponse?.password)}
                                     {...field}
                                 />
                             )}
@@ -213,7 +231,7 @@ export default function SignUp() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign Up
+                            Đăng Ký
                         </LoadingButton>
                         <Grid container justifyContent="flex-end">
                             <Grid item>

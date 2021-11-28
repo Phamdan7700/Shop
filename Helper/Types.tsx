@@ -40,3 +40,14 @@ export interface UserType {
     name: string;
     email: string;
 }
+
+export interface Post {
+    id: number;
+    title: string;
+    summary: string;
+    content: string;
+    thumbnail: string;
+    view: number;
+    created_at: Date;
+    updated_at: Date;
+}

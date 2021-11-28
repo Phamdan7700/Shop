@@ -1,5 +1,5 @@
 import HomeIcon from "@mui/icons-material/Home";
-import { Breadcrumbs, Container, Pagination } from "@mui/material";
+import { Breadcrumbs, Container, Grid, Pagination } from "@mui/material";
 import Layout from "components/Layouts";
 import NextLink from "components/Link";
 import API from "Helper/api";
@@ -27,7 +27,14 @@ export default function BLog({ post }: InferGetServerSidePropsType<typeof getSer
                         {post.title}
                     </span>
                 </Breadcrumbs>
-                <div dangerouslySetInnerHTML={{ __html: post.content }} style={{ textAlign:'justify' }}></div>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={9}>
+                        <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                        <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
+                    </Grid>
+                </Grid>
             </Container>
         </Layout>
     );

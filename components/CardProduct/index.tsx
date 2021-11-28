@@ -14,6 +14,7 @@ import { Store } from "utils/Store";
 import { useRouter } from "next/router";
 import ROUTE from "Helper/Router";
 import { formatNumber } from "Helper/function";
+import Cookies from "js-cookie";
 
 interface CartProps {
     product: Product;
@@ -22,7 +23,7 @@ interface CartProps {
 export default function CardProduct({ product }: CartProps) {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const { state, dispatch } = useContext(Store);
-    const { userInfo } = state;
+    const userInfo = Cookies.get("userInfo");
     const router = useRouter();
     const handleClick = () => {
         enqueueSnackbar("Đã thêm vào giỏ hàng!", {
@@ -67,7 +68,7 @@ export default function CardProduct({ product }: CartProps) {
                     </Typography>
 
                     <div>
-                        <Stack alignItems="start">
+                        <Stack>
                             {product.price_sale > 0 && (
                                 <div className={styles.priceOld}>
                                     {formatNumber(product.price)} <small>đ</small>
@@ -85,6 +86,7 @@ export default function CardProduct({ product }: CartProps) {
                         <Button
                             className={styles.addtocart}
                             variant="outlined"
+                            fullWidth={true}
                             onClick={(e) => {
                                 e.preventDefault();
                                 handleAddToCart();

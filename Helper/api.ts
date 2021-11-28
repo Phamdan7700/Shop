@@ -15,6 +15,10 @@ const API = {
     },
     homepage: host + "/api/homepage",
     // featuredProduct: host + "/api/featuredProduct",
+    register: host + '/api/register',
+    login: host + '/api/login',
+    logout:  host + '/api/logout',
+    getCSRF: host + '/api/sanctum/csrf-cookie'
 };
 
 export default API;

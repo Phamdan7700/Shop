@@ -69,11 +69,11 @@ export default function Home() {
                         <Container sx={{ pt: 5, pb: 5 }}>
                             <SliderProduct title={`${category.title} nổi bật`}>
                                 {category.products.map((item: Product) => (
-                                    <Box key={item.id} sx={{ p: "0 10px", height: "100%" }}>
+                                    <div key={item.id} style={{ padding: "0 10px", height: "100%" }}>
                                         <NextLink href={ROUTE.getProduct(item.id)}>
                                             <CardProduct key={item.id} product={item} />
                                         </NextLink>
-                                    </Box>
+                                    </div>
                                 ))}
                             </SliderProduct>
                         </Container>

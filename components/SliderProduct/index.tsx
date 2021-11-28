@@ -26,7 +26,7 @@ const responsive = {
 
 function SliderProduct({ title, children }: { title?: string; children: ReactNode }) {
     return (
-        <Box className={styles.wrapper}>
+        <div className={styles.wrapper}>
             {title && (
                <h3 className='title'> {title}</h3>
             )}
@@ -42,7 +42,7 @@ function SliderProduct({ title, children }: { title?: string; children: ReactNod
             >
                 {children}
             </Carousel>
-        </Box>
+        </div>
     );
 }
 

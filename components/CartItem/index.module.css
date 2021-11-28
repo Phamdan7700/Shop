@@ -11,6 +11,7 @@
 .amountWrap {
   background-color: rgba(150, 150, 150, 0.30);
   border-radius: 30px;
+  align-items: center
 }
 
 .amount {
@@ -19,7 +20,8 @@
     text-align: center;
     border-radius: 30px;
     padding: 5px 10px;
-    max-width: 70px;
+    /* max-width: 70px; */
+    min-height: fit-content;
 }
 
 .btnAmount {

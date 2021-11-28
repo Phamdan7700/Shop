@@ -2,44 +2,56 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
 import Link from "components/Link";
+import API from "Helper/api";
+import axiosClient from "Helper/API/AxiosClient";
+import getCsrfCookies from "Helper/API/getCsrfCookies";
 import ROUTE from "Helper/Router";
+import { UserType } from "Helper/Types";
 import Cookies from "js-cookie";
 import Image from "next//image";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect } from "react";
-import { Store } from "utils/Store";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { useSnackbar } from "notistack";
+import React, { useContext, useEffect, useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Store } from "utils/Store";
 
 interface IFormInputs {
     email: string;
     password: string;
     remember: boolean;
 }
+interface ResponseData {
+    data: UserType;
+    token: string;
+    message: string;
+    success: boolean;
+}
 export default function SignInSide() {
     const router = useRouter();
     const { redirect } = router.query;
+    const [errorResponse, setErrorResponse] = useState<any>({});
+
     const { state, dispatch } = useContext(Store);
-    const { userInfo } = state;
+    const [userInfo, setUserInfo] = React.useState(() => {
+        return Cookies.get("userInfo") ? JSON.parse(Cookies.get("userInfo")!) : null;
+    });
 
     const [loading, setLoading] = React.useState(false);
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    const handleLogin = (data: any) => {
-        dispatch({ type: "LOGIN_USER", userInfo: data.user });
-        Cookies.set("userInfo", JSON.stringify(data.user));
-        enqueueSnackbar(data.message, {
+    const handleLogin = (response: ResponseData) => {
+        Cookies.set("userInfo", JSON.stringify(response.data));
+        Cookies.set("auth_token", JSON.stringify(response.token));
+        enqueueSnackbar(response.message, {
             variant: "success",
             autoHideDuration: 2000,
             anchorOrigin: { vertical: "top", horizontal: "center" },
             onClose: () => {
-                router.push("/");
+                router.push(typeof redirect === "string" ? redirect : ROUTE.home);
             },
         });
         setLoading(false);
@@ -54,30 +66,34 @@ export default function SignInSide() {
 
     const onSubmit: SubmitHandler<IFormInputs> = (data) => {
         setLoading(true);
-        axios
-            .post("http://127.0.0.1:8000/api/login", data)
-            .then(function (response) {
-                console.log(response);
+        getCsrfCookies().then(() => {
+            axiosClient
+                .post(API.login, data, { withCredentials: true })
+                .then(function (response) {
+                    if (response.data.success) {
+                        handleLogin(response.data);
+                    } else {
+                        console.log(response.data.errors);
 
-                if (response.data.success) {
-                    handleLogin(response.data);
-                } else {
-                    enqueueSnackbar(response.data.message, {
-                        variant: "error",
-                        autoHideDuration: 3000,
-                        anchorOrigin: { vertical: "top", horizontal: "center" },
-                    });
+                        setErrorResponse(response.data.errors);
+                        enqueueSnackbar(response.data.message, {
+                            variant: "error",
+                            autoHideDuration: 3000,
+                            anchorOrigin: { vertical: "top", horizontal: "center" },
+                        });
+                        setLoading(false);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error.response);
                     setLoading(false);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+                });
+        });
     };
 
     useEffect(() => {
         if (userInfo) {
-            router.push(ROUTE.home);
+            router.push(typeof redirect === "string" ? redirect : ROUTE.home);
         }
     }, []);
 
@@ -130,10 +146,10 @@ export default function SignInSide() {
                                     margin="normal"
                                     fullWidth
                                     id="email"
-                                    label="Email Address"
+                                    label="Địa chỉ Email"
                                     autoFocus
-                                    helperText={errors.email?.message}
-                                    error={Boolean(errors.email)}
+                                    helperText={errors.email?.message || errorResponse?.email}
+                                    error={Boolean(errors.email || errorResponse.email)}
                                     {...field}
                                 />
                             )}
@@ -150,12 +166,12 @@ export default function SignInSide() {
                                 <TextField
                                     margin="normal"
                                     fullWidth
-                                    label="Password"
+                                    label="Mật khẩu"
                                     type="password"
                                     id="password"
                                     inputProps={{ type: "password" }}
-                                    helperText={errors.password?.message}
-                                    error={Boolean(errors.password)}
+                                    helperText={errors.password?.message || errorResponse?.password}
+                                    error={Boolean(errors.password || errorResponse.password)}
                                     {...field}
                                 />
                             )}
@@ -166,7 +182,7 @@ export default function SignInSide() {
                             defaultValue={false}
                             render={({ field }) => <Checkbox color="primary" id="remember" {...field} />}
                         />
-                        <label htmlFor="remember">Remember me</label>
+                        <label htmlFor="remember">Duy trì đăng nhập</label>
 
                         <LoadingButton
                             type="submit"
@@ -176,11 +192,11 @@ export default function SignInSide() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            Đăng nhập
                         </LoadingButton>
                         <Grid container>
                             <Grid item xs>
-                                <Link href={ROUTE.signUp}>Forgot password?</Link>
+                                <Link href={ROUTE.signUp}>Quên mật khẩu?</Link>
                             </Grid>
                             <Grid item>
                                 Chưa có tài khoản?{" "}

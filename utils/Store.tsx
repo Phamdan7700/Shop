@@ -28,7 +28,7 @@ const initialState: StateType = {
         cart: [],
         countItem: 0,
         totalPrice: 0,
-        shippingFee: 15,
+        shippingFee: 15000,
     },
     userInfo: typeof Cookies.get("userInfo") !== "undefined" ? JSON.parse(Cookies.get("userInfo")!) : null,
 };
@@ -64,10 +64,7 @@ function reducer(state: StateType, action: ActionType): StateType {
                 state.shoppingCart.cart.splice(currentItemIndex, 1);
             }
             return { ...state };
-        case LOGIN_USER:
-            return { ...state, userInfo: action.userInfo! };
-        case LOGOUT_USER:
-            return { ...state, userInfo: action.userInfo! };
+       
         default:
             return state;
     }

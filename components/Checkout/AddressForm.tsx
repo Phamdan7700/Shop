@@ -9,40 +9,40 @@ export default function AddressForm() {
     return (
         <React.Fragment>
             <Typography variant="h6" gutterBottom>
-                Shipping address
+                Địa chỉ giao hàng
             </Typography>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="firstName"
-                        name="firstName"
-                        label="First name"
+                        id="name"
+                        name="name"
+                        label="Họ và tên"
                         fullWidth
                         autoComplete="given-name"
-                        variant="standard"
+                        variant="outlined"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
                         required
-                        id="lastName"
-                        name="lastName"
-                        label="Last name"
+                        id="phone"
+                        name="phone"
+                        label="Số điện thoại"
                         fullWidth
-                        autoComplete="family-name"
-                        variant="standard"
+                        autoComplete="phone"
+                        variant="outlined"
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="address1"
-                        name="address1"
-                        label="Address line 1"
+                        id="address"
+                        name=""
+                        label="Địa chỉ"
                         fullWidth
-                        autoComplete="shipping address-line1"
-                        variant="standard"
+                        autoComplete="address"
+                        variant="outlined"
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -52,7 +52,7 @@ export default function AddressForm() {
                         label="Address line 2"
                         fullWidth
                         autoComplete="shipping address-line2"
-                        variant="standard"
+                        variant="outlined"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -63,11 +63,11 @@ export default function AddressForm() {
                         label="City"
                         fullWidth
                         autoComplete="shipping address-level2"
-                        variant="standard"
+                        variant="outlined"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField id="state" name="state" label="State/Province/Region" fullWidth variant="standard" />
+                    <TextField id="state" name="state" label="State/Province/Region" fullWidth variant="outlined" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <TextField
@@ -77,7 +77,7 @@ export default function AddressForm() {
                         label="Zip / Postal code"
                         fullWidth
                         autoComplete="shipping postal-code"
-                        variant="standard"
+                        variant="outlined"
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -88,7 +88,7 @@ export default function AddressForm() {
                         label="Country"
                         fullWidth
                         autoComplete="shipping country"
-                        variant="standard"
+                        variant="outlined"
                     />
                 </Grid>
                 <Grid item xs={12}>

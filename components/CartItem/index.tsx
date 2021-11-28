@@ -3,6 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { IconButton, Link, Stack, TableCell, TableRow, TextField } from "@mui/material";
 import AlertDialogRemoveCart from "components/Alert/RemoveCart";
+import { formatNumber } from "Helper/function";
 import ROUTE from "Helper/Router";
 import { CartItemType } from "Helper/Types";
 import Image from "next/image";
@@ -38,7 +39,7 @@ function CartItem({ item, addToCart, removeFromCart }: PropType) {
     return (
         <>
             <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" sx={{ minWidth: 100 }}>
                     <NextLink href={ROUTE.getProduct(item.id)} passHref>
                         <Link>
                             <Image src={item.thumbnail} width="100" height="100" alt="" objectFit="contain" />
@@ -50,7 +51,9 @@ function CartItem({ item, addToCart, removeFromCart }: PropType) {
                         <Link>{item.name}</Link>
                     </NextLink>
                 </TableCell>
-                <TableCell>${item.price}</TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap" , fontWeight:'bold'}}>
+                    {formatNumber(item.price)} <span>đ</span>
+                </TableCell>
                 <TableCell sx={{ whiteSpace: "nowrap" }}>
                     <Stack direction="row" className={styles.amountWrap}>
                         <IconButton
@@ -62,13 +65,11 @@ function CartItem({ item, addToCart, removeFromCart }: PropType) {
                             <RemoveIcon />
                         </IconButton>
                         <TextField
-                            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                             size="small"
                             className={styles.amount}
                             value={item.amount}
                             variant="standard"
                             InputProps={{ disableUnderline: true }}
-                            //   onChange={handleUpdateItem}
                         ></TextField>
                         <IconButton
                             className={styles.btnAmount}
@@ -80,7 +81,9 @@ function CartItem({ item, addToCart, removeFromCart }: PropType) {
                         </IconButton>
                     </Stack>
                 </TableCell>
-                <TableCell sx={{ width: 100 }}>${(item.price * item.amount).toFixed(2)}</TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap", fontWeight:'bold' }}>
+                    {formatNumber(item.price * item.amount)} <span>đ</span>
+                </TableCell>
                 <TableCell>
                     <IconButton
                         onClick={() => {
