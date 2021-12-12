@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps, ...appProps }: AppProps) {
                     maxSnack={2}
                     anchorOrigin={{
                         vertical: "bottom",
-                        horizontal: "right",
+                        horizontal: "left",
                     }}
                     ref={notistackRef}
                     action={(key) => (

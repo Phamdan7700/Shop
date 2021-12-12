@@ -16,5 +16,6 @@ const ROUTE = {
     signUp: "/sign-up",
     signIn: "/sign-in",
     checkOut: "/check-out",
+    forgotPassword: "/forgot-password",
 };
 export default ROUTE;

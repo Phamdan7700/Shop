@@ -7,7 +7,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { AddToCart, Product } from "Helper/Types";
 import { useSnackbar } from "notistack";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import Image from "next/image";
 import { Store } from "utils/Store";
@@ -23,17 +23,19 @@ interface CartProps {
 export default function CardProduct({ product }: CartProps) {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const { state, dispatch } = useContext(Store);
-    const userInfo = Cookies.get("userInfo");
+    const [userInfo, setUserInfo] = useState(() => {
+        return Cookies.get("userInfo");
+    });
     const router = useRouter();
-    const handleClick = () => {
+    const handleClick = () => {};
+
+    const addToCart: AddToCart = (item) => {
+        const { id, name, price_sale, price, thumbnail } = item;
+        dispatch({ type: "ADD_TO_CART", payload: { id, name, price_sale, price, thumbnail, amount: 1 } });
         enqueueSnackbar("Đã thêm vào giỏ hàng!", {
             variant: "success",
             autoHideDuration: 3000,
         });
-    };
-
-    const addToCart: AddToCart = (item) => {
-        dispatch({ type: "ADD_TO_CART", payload: { ...item, amount: 1 } });
     };
 
     const handleAddToCart = () => {
@@ -42,7 +44,6 @@ export default function CardProduct({ product }: CartProps) {
             return;
         }
         addToCart(product);
-        handleClick();
     };
 
     return (

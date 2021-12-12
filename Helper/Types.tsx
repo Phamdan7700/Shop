@@ -29,8 +29,20 @@ export interface shoppingCartType {
     shippingFee: number;
 }
 
-export interface CartItemType extends Product {
-    amount: number;
+export interface CartItemType {
+    id: number;
+    name: string;
+    manufacturer: string;
+    price: number;
+    price_sale: number;
+    category: string;
+    thumbnail: string;
+    count_in_sock: number;
+    rating: {
+        rate: number;
+        count: number;
+    };
+    amount: number
 }
 
 export type AddToCart = (product: Product) => void;

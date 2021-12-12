@@ -1,7 +1,6 @@
 import { LoadingButton } from "@mui/lab";
-import { FormControl, FormHelperText, Paper } from "@mui/material";
+import { Backdrop, CircularProgress, FormControl, FormHelperText, LinearProgress, Paper } from "@mui/material";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,7 +8,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
 import Link from "components/Link";
 import API from "Helper/api";
 import axiosClient from "Helper/API/AxiosClient";
@@ -24,6 +22,8 @@ import React, { useContext, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Store } from "utils/Store";
 import styles from "./index.module.css";
+import Head from "next/head";
+
 interface IFormInputs {
     name: string;
     email: string;
@@ -43,7 +43,8 @@ export default function SignUp() {
     const router = useRouter();
     const { redirect } = router.query;
     const { state, dispatch } = useContext(Store);
-    const { userInfo } = state;
+    const [open, setOpen] = React.useState(false);
+
 
     const [errorResponse, setErrorResponse] = useState<any>({});
 
@@ -61,6 +62,7 @@ export default function SignUp() {
                 router.push(ROUTE.home);
             },
         });
+        setOpen(true);
         setLoading(false);
     };
     // Form
@@ -98,6 +100,18 @@ export default function SignUp() {
 
     return (
         <div className={styles.wrapper}>
+            <Head>
+                <title>Đăng Ký</title>
+            </Head>
+            <Backdrop
+                sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 100 }}
+                open={open}
+            >
+                <div>Đang chuyển hướng ...</div>
+                <CircularProgress color="warning" />
+                <CircularProgress color="success" />
+                <CircularProgress color="error" />
+            </Backdrop>
             <Container component="main" maxWidth="sm">
                 <CssBaseline />
                 <Box

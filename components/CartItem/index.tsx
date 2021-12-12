@@ -52,7 +52,7 @@ function CartItem({ item, addToCart, removeFromCart }: PropType) {
                     </NextLink>
                 </TableCell>
                 <TableCell sx={{ whiteSpace: "nowrap" , fontWeight:'bold'}}>
-                    {formatNumber(item.price)} <span>đ</span>
+                    {formatNumber(item.price_sale > 0 ? item.price_sale : item.price)} <span>đ</span>
                 </TableCell>
                 <TableCell sx={{ whiteSpace: "nowrap" }}>
                     <Stack direction="row" className={styles.amountWrap}>
@@ -82,7 +82,7 @@ function CartItem({ item, addToCart, removeFromCart }: PropType) {
                     </Stack>
                 </TableCell>
                 <TableCell sx={{ whiteSpace: "nowrap", fontWeight:'bold' }}>
-                    {formatNumber(item.price * item.amount)} <span>đ</span>
+                    {formatNumber((item.price_sale > 0 ? item.price_sale : item.price) * item.amount)} <span>đ</span>
                 </TableCell>
                 <TableCell>
                     <IconButton

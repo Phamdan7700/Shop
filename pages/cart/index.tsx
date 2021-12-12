@@ -32,11 +32,12 @@ function Cart() {
     const [userInfo, setUserInfo] = React.useState(() => {
         return Cookies.get("userInfo") ? JSON.parse(Cookies.get("userInfo")!) : null;
     });
+    const auth_token = Cookies.get("auth_token") ? JSON.parse(Cookies.get("auth_token")!) : null
     useEffect(() => {
-        if (!userInfo) {
+        if (!userInfo || !auth_token) {
             router.push(ROUTE.signIn + "?redirect=" + ROUTE.cart);
         }
-    }, []);
+    });
     function handleAddToCart(item: CartItemType) {
         dispatch({
             type: "ADD_TO_CART",

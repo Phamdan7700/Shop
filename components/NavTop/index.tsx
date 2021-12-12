@@ -13,14 +13,17 @@ import Link from "components/Link";
 import API from "Helper/api";
 import axiosClient from "Helper/API/AxiosClient";
 import getCsrfCookies from "Helper/API/getCsrfCookies";
+import { formatNumber } from "Helper/function";
 import ROUTE from "Helper/Router";
 import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { Store } from "utils/Store";
 import styles from "../../styles/Header.module.css";
 
 export default function NavTop() {
+    const router = useRouter();
     const { state, dispatch } = React.useContext(Store);
     const [userInfo, setUserInfo] = React.useState(() => {
         return Cookies.get("userInfo") ? JSON.parse(Cookies.get("userInfo")!) : null;
@@ -59,6 +62,7 @@ export default function NavTop() {
                 })
                 .catch(function (error) {
                     console.log(error.response);
+                    router.push(ROUTE.signIn)
                 });
         });
     };
@@ -103,7 +107,7 @@ export default function NavTop() {
                         <Stack direction="row" alignItems="center">
                             <Link href={ROUTE.cart} className={styles.headerIconLink}>
                                 <FontAwesomeIcon className={styles.headerIcon} icon={faDollarSign} />
-                                {state.shoppingCart.totalPrice} <span>đ</span>
+                                {formatNumber(state.shoppingCart.totalPrice)} <span>đ</span>
                             </Link>
 
                             {userInfo ? (
@@ -119,7 +123,6 @@ export default function NavTop() {
                                         <Avatar
                                             sx={{ bgcolor: "orangered", width: 30, height: 30 }}
                                             alt={userInfo.name}
-                                            src="/broken-image.jpg"
                                         />
                                         <span style={{ marginLeft: 5 }}>{userInfo.name}</span>
                                     </Button>

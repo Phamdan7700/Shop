@@ -72,7 +72,7 @@ function CartItemSidebar({ item, onClose }: PropType) {
                 </ListItemAvatar>
                 <ListItemText
                     primary={item.name}
-                    secondary={item.amount + " X " + formatNumber(item.price)}
+                    secondary={item.amount + " X " + formatNumber(item.price_sale > 0 ? item.price_sale : item.price)}
                     onClick={(event) => {
                         router.push(ROUTE.getProduct(item.id));
                         onClose(event);

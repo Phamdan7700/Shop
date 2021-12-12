@@ -19,7 +19,7 @@ export default function AlertDialogRemoveCart({ open, onCancel, onOK }: PropType
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Are you want to remove Item?"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Bạn muốn sản phẩm này ?"}</DialogTitle>
                 <DialogActions>
                     <Button onClick={onCancel}>Cancel</Button>
                     <Button onClick={onOK} autoFocus>

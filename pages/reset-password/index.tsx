@@ -1,7 +1,6 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Backdrop, CircularProgress, LinearProgress, Stack } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 import Box from "@mui/material/Box";
-import Checkbox from "@mui/material/Checkbox";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -12,79 +11,57 @@ import API from "Helper/api";
 import axiosClient from "Helper/API/AxiosClient";
 import getCsrfCookies from "Helper/API/getCsrfCookies";
 import ROUTE from "Helper/Router";
-import { UserType } from "Helper/Types";
-import Cookies from "js-cookie";
 import Image from "next//image";
-import { useRouter } from "next/router";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Store } from "utils/Store";
 
 interface IFormInputs {
-    email: string;
     password: string;
-    remember: boolean;
+    password_confirmation: string;
 }
 interface ResponseData {
-    data: UserType;
-    token: string;
-    message: string;
-    success: boolean;
+    data: IFormInputs;
 }
 export default function SignInSide() {
     const router = useRouter();
-    const { redirect } = router.query;
-    const [errorResponse, setErrorResponse] = useState<any>({});
-
-    const { state, dispatch } = useContext(Store);
-    const [userInfo, setUserInfo] = React.useState(() => {
-        return Cookies.get("userInfo") ? JSON.parse(Cookies.get("userInfo")!) : null;
-    });
-
-    const auth_token =  Cookies.get("auth_token") ? JSON.parse(Cookies.get("auth_token")!) : null
-    const [open, setOpen] = React.useState(false);
-
+    const { token, email } = router.query;
     const [loading, setLoading] = React.useState(false);
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    const handleLogin = (response: ResponseData) => {
-        Cookies.set("userInfo", JSON.stringify(response.data));
-        Cookies.set("auth_token", JSON.stringify(response.token));
-        enqueueSnackbar(response.message, {
-            variant: "success",
-            autoHideDuration: 2000,
-            anchorOrigin: { vertical: "top", horizontal: "center" },
-            onClose: () => {
-                router.push(typeof redirect === "string" ? redirect : ROUTE.home);
-            },
-        });
-        setOpen(true);
-        setLoading(false);
-    };
+    const [open, setOpen] = React.useState(false);
+    const { enqueueSnackbar } = useSnackbar();
     // Form
     const {
         handleSubmit,
         control,
-        watch,
         reset,
+        watch,
         formState: { errors },
     } = useForm<IFormInputs>();
-    const watchEmail = watch("email");
-    const watchPassword = watch("password");
+
     const onSubmit: SubmitHandler<IFormInputs> = (data) => {
+        console.log({ ...data, token, email });
+
         setLoading(true);
         getCsrfCookies().then(() => {
             axiosClient
-                .post(API.login, data, { withCredentials: true })
+                .post(API.resetPassword, { ...data, token, email }, { withCredentials: true })
                 .then(function (response) {
-                    if (response.data.success) {
-                        handleLogin(response.data);
-                    } else {
-                        console.log(response.data.errors);
-
-                        setErrorResponse(response.data.errors);
-                        enqueueSnackbar(response.data.message, {
+                    if (response.data.status) {
+                        enqueueSnackbar(response.data.status, {
+                            variant: "success",
+                            autoHideDuration: 3000,
+                            anchorOrigin: { vertical: "top", horizontal: "center" },
+                            onClose: () => {
+                                router.push(ROUTE.signIn);
+                            },
+                        });
+                        setOpen(true)
+                        setLoading(false);
+                    }
+                    if (response.data.email) {
+                        enqueueSnackbar(response.data.email, {
                             variant: "error",
                             autoHideDuration: 3000,
                             anchorOrigin: { vertical: "top", horizontal: "center" },
@@ -98,26 +75,11 @@ export default function SignInSide() {
                 });
         });
     };
-    useEffect(() => {
-        watchEmail && setErrorResponse({...errorResponse, email:''})
-           
-    }, [watchEmail]);
-
-    useEffect(() => {
-        watchPassword && setErrorResponse({...errorResponse, password:''})
-           
-    }, [watchPassword]);
-
-    useEffect(() => {
-        if (userInfo && auth_token) {
-            router.push(typeof redirect === "string" ? redirect : ROUTE.home);
-        }
-    }, []);
 
     return (
         <>
             <Head>
-                <title>Đăng nhập</title>
+                <title>Quên mật khẩu</title>
             </Head>
             <Grid container component="main" sx={{ height: "100vh" }}>
                 <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 100 }} open={open}>
@@ -154,33 +116,10 @@ export default function SignInSide() {
                             <Image src="/logo.png" width="200" height="100" alt="" objectFit="contain" />
                         </Link>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Reset Password
                         </Typography>
 
-                        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
-                            <Controller
-                                name="email"
-                                control={control}
-                                rules={{
-                                    required: { value: true, message: "Vui lòng nhập địa chỉ email" },
-                                    pattern: {
-                                        value: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                                        message: "Vui lòng kiếm tra lại định dạng email",
-                                    },
-                                }}
-                                render={({ field }) => (
-                                    <TextField
-                                        margin="normal"
-                                        fullWidth
-                                        id="email"
-                                        label="Địa chỉ Email"
-                                        autoFocus
-                                        helperText={errors.email?.message || errorResponse?.email}
-                                        error={Boolean(errors.email || errorResponse.email)}
-                                        {...field}
-                                    />
-                                )}
-                            />
+                        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1, width: "100%" }}>
                             <Controller
                                 name="password"
                                 control={control}
@@ -196,20 +135,35 @@ export default function SignInSide() {
                                         label="Mật khẩu"
                                         type="password"
                                         id="password"
-                                        inputProps={{ type: "password" }}
-                                        helperText={errors.password?.message || errorResponse?.password}
-                                        error={Boolean(errors.password || errorResponse.password)}
+                                        helperText={errors.password?.message}
+                                        error={Boolean(errors.password)}
                                         {...field}
                                     />
                                 )}
                             />
+
                             <Controller
-                                name="remember"
+                                name="password_confirmation"
                                 control={control}
-                                defaultValue={false}
-                                render={({ field }) => <Checkbox color="primary" id="remember" {...field} />}
+                                rules={{
+                                    required: { value: true, message: "Vui lòng nhập mật khẩu" },
+                                    minLength: { value: 8, message: "Vui lòng nhập tối thiểu 8 ký tự" },
+                                    maxLength: { value: 255, message: "Mật khẩu quá dài" },
+                                    validate: (value) => value === watch("password") || "Mật khẩu không trùng khớp",
+                                }}
+                                render={({ field }) => (
+                                    <TextField
+                                        margin="normal"
+                                        fullWidth
+                                        label="Nhập lại mật khẩu"
+                                        type="password"
+                                        id="password_confirmation"
+                                        helperText={errors.password_confirmation?.message}
+                                        error={Boolean(errors.password_confirmation)}
+                                        {...field}
+                                    />
+                                )}
                             />
-                            <label htmlFor="remember">Duy trì đăng nhập</label>
 
                             <LoadingButton
                                 type="submit"
@@ -219,19 +173,8 @@ export default function SignInSide() {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Đăng nhập
+                                Đặt lại mật khẩu
                             </LoadingButton>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href={ROUTE.forgotPassword}>Quên mật khẩu?</Link>
-                                </Grid>
-                                <Grid item>
-                                    Chưa có tài khoản?{" "}
-                                    <Link href={ROUTE.signUp} color="red">
-                                        {"Đăng ký"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
                         </Box>
                     </Box>
                 </Grid>

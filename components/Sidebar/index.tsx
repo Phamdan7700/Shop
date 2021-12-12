@@ -29,7 +29,7 @@ function SideBar({ shoppingCart, onClose }: SidebarType) {
     const router = useRouter();
     const { cart, totalPrice, countItem } = shoppingCart;
     return (
-        <Box style={{ minWidth: 400, maxWidth: 400 }}>
+        <Box style={{ width: 400, maxWidth: '100vw' }}>
             <Typography
                 variant="h6"
                 sx={{

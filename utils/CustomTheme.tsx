@@ -18,7 +18,7 @@ export const theme = createTheme({
         MuiButton: {
             variants: [
                 {
-                    props: { variant: "outlined" },
+                    props: { variant: "outlined", color: "primary"},
                     style: { ":hover": { backgroundColor: "#15161d", color: "#fff" } },
                 },
             ],

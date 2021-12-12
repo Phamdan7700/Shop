@@ -18,7 +18,7 @@ import CardProduct from "../components/CardProduct";
 import { AddToCart, Category, Product } from "../Helper/Types";
 import Head from 'next/head'
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-const slider = [{ src: "banner1.jpg" }, { src: "banner2.jpg" }, { src: "banner3.jpg" }];
+const slider = [{ src: "1.webp" }, { src: "2.webp" }, { src: "3.webp" }];
 
 export default function Home() {
     const URL = API.homepage;
